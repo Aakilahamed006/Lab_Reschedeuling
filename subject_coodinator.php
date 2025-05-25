@@ -2,10 +2,10 @@
 require_once 'connection.php';
 $db = (new Database())->connect();
 
-class Student
+class Subject_Coodiator
 {
     private $conn;
-    private $table_name = "student_detail";
+    private $table_name = "subject_codinator_details";
 
     public $id;
     public $name;
@@ -18,7 +18,7 @@ class Student
         $this->conn = $db;
     }
 
-    public function getStudentsDetails()
+    public function getCoodinatorsDetails()
     {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
@@ -26,9 +26,9 @@ class Student
         return $stmt;
     }
 
-    public function createStudent()
+    public function createSubjectCoodinator()
     {
-        $query = "INSERT INTO " . $this->table_name . " (Student_Name, Student_Email, password) VALUES (:name, :email, :password)";
+        $query = "INSERT INTO " . $this->table_name . " (Coodinator_Name, Coodinator_Email, password) VALUES (:name, :email, :password)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -40,9 +40,9 @@ class Student
         return $stmt->execute();
     }
 
-    public function verifyStudent($name, $password)
+    public function verifyCoodinator($name, $password)
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE LOWER(Student_Name) = LOWER(:name) AND password = :password LIMIT 1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE LOWER(Coodinator_Name) = LOWER(:name) AND password = :password LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':password', $password);

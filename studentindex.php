@@ -4,13 +4,13 @@ require_once 'student_details.php';
 $db = (new Database())->connect();
 $student = new Student($db);
 
-// getMethhod   http://localhost/Lab_Rescheduling/index.php
+// getMethhod   http://localhost/Lab_Rescheduling/studentindex.php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $student->getStudentsDetails();
     $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($students);
 }
-// postMethod  http://localhost/Lab_Rescheduling/index.php
+// postMethod  http://localhost/Lab_Rescheduling/studentindex.php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents("php://input"), true);
 
