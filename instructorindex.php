@@ -7,7 +7,7 @@ $instructor = new Instructor($db);
 // getMethhod   http://localhost/Lab_Rescheduling/instructorindex.php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $instructor->getInstructorsDetails();
-    $$instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($instructors);
 }
 

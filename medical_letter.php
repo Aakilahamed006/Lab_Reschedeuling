@@ -1,3 +1,4 @@
+
 <?php
 require_once 'connection.php';
 $db = (new Database())->connect();
@@ -21,7 +22,7 @@ class Medical_Letter
         $this->conn = $db;
     }
 
-
+    //done
     public function createMedicalLetter()
     {
         $query = "INSERT INTO " . $this->table_name . " 
@@ -46,49 +47,33 @@ class Medical_Letter
             return false;
         }
     }
-
-    public function checkedByApproval()
+    //done
+    public function getCheckedByApproval()
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE   Approved = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-
-        // If a matching row is found, return true
-        if ($stmt->rowCount() > 0) {
-            return true;
-        }
-
-        return false;
+        return $stmt;
     }
-
-    public function checkedByInstructor()
+    //done
+    public function getCheckedByInstructor()
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE   Checked = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-
+        return $stmt; // Return the PDOStatement object so you can fetch data
         // If a matching row is found, return true
-        if ($stmt->rowCount() > 0) {
-            return true;
-        }
 
-        return false;
     }
-
-    public function checkedByCoodinator()
+    //done
+    public function getCheckedByCoordinator()
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE checked_by_coordinator = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-
-        // If a matching row is found, return true
-        if ($stmt->rowCount() > 0) {
-            return true;
-        }
-
-        return false;
+        return $stmt; // Return the PDOStatement object so you can fetch data
     }
-
+    //done
     public function getMedicalLetterDetails()
     {
         $query = "SELECT * FROM " . $this->table_name;
@@ -96,24 +81,28 @@ class Medical_Letter
         $stmt->execute();
         return $stmt;
     }
+    //done
     public function getMedicalLetterDetailsById()
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE Student_Id = :Student_Id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(":student_id", $this->student_id);
+        $stmt->bindValue(":Student_Id", $this->student_id);
         $stmt->execute();
         return $stmt;
     }
 
+
+    //done
     public function getMedicalLetterDetailsByLetterId()
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE Letter_Id = :Letter_Id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(":letter_id", $this->letter_id);
+        $stmt->bindValue(":Letter_Id", $this->letter_id);
         $stmt->execute();
         return $stmt;
     }
 
+    //done
     public function ApproveLetter()
     {
         try {
@@ -124,8 +113,10 @@ class Medical_Letter
 
                 return $stmt->execute();
             } else {
-                // If not approved, skip update or handle accordingly
-                return false;
+                $query = "UPDATE " . $this->table_name . " SET Approved = 0 WHERE Letter_Id = :Letter_Id";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindParam(":Letter_Id", $this->letter_id);
+                return $stmt->execute();
             }
         } catch (PDOException $e) {
             error_log("Update failed: " . $e->getMessage());
@@ -133,7 +124,7 @@ class Medical_Letter
         }
     }
 
-
+    //done
     public function CheckLetter()
     {
         $query = "UPDATE " . $this->table_name . " SET Checked = 1 WHERE Letter_Id = :Letter_Id";
@@ -147,7 +138,7 @@ class Medical_Letter
             return false;
         }
     }
-
+    //done
     public function CheckByCoordinator()
     {
         $query = "UPDATE " . $this->table_name . " SET checked_by_coordinator = 1 WHERE Letter_Id = :Letter_Id";
