@@ -5,7 +5,7 @@ require_once 'medical_letter.php';
 $db = (new Database())->connect();
 $letter = new Medical_Letter($db);
 
-// Endpoint: POST http://localhost/Lab_Rescheduling/getcheckedbyapproval.php
+// Endpoint: GET http://localhost/Lab_Rescheduling/getcheckedbyapproval.php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $stmt = $letter->getCheckedByApproval();
