@@ -1,7 +1,9 @@
 <?php
 require_once 'connection.php';
 require_once 'subject_coodinator.php';
-
+header("Access-Control-Allow-Origin: *"); // Allow all origins (for development)
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Allow specific methods
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 $db = (new Database())->connect();
 $coodinator = new Subject_Coodiator($db);
 
