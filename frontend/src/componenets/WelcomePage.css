@@ -1,0 +1,48 @@
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  color: #002147;
+  margin-bottom: 10px;
+}
+
+.welcome-subtitle {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.welcome-button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #0056b3;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.welcome-button:hover {
+  background-color: #003d80;
+}
+
+.welcome-text {
+  margin-top: 30px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.welcome-buttons {
+  display: flex;
+  gap: 10px;
+}

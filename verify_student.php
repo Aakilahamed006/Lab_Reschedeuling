@@ -1,7 +1,9 @@
 <?php
 require_once 'connection.php';
 require_once 'student_details.php';
-
+header("Access-Control-Allow-Origin: *"); // Allow all origins (for development)
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Allow specific methods
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 $db = (new Database())->connect();
 $student = new Student($db);
 
@@ -15,13 +17,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["message" => "Invalid JSON input"]);
         exit;
     }
+
     $student->name = $input['name'];
     $student->password = $input['password'];
-    if ($student->verifyStudent($student->name, $student->password)) {
+
+    // Now verifyStudent returns details or null
+    $verifiedStudent = $student->verifyStudent($student->name, $student->password);
+
+    if ($verifiedStudent) {
         http_response_code(200);
-        echo json_encode(array("message" => "Student verified successfully."));
+        // You can return the student details here if needed
+        echo json_encode([
+            "message" => "Student verified successfully.",
+            "student" => $verifiedStudent
+        ]);
     } else {
         http_response_code(401);
-        echo json_encode(array("message" => "Invalid student  credentials."));
+        echo json_encode(["message" => "Invalid student credentials."]);
     }
 }

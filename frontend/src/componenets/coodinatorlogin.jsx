@@ -7,13 +7,13 @@ function CoordinatorLoginPage() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = { name, email, password };
+    const payload = { name, password };
 
     try {
       const response = await fetch('http://localhost/Lab_Rescheduling/verify_coodinator.php', {
@@ -28,7 +28,7 @@ function CoordinatorLoginPage() {
         const data = await response.json();
         console.log('Login successful:', data);
         setErrorMessage('');
-        navigate('/coordinator-dashboard'); // Redirect on success
+        navigate("/coordinator-dashboard", { state: { availability: data.coordinator } });
       } else {
         setErrorMessage('Invalid credentials. Please try again.');
       }
@@ -62,18 +62,6 @@ function CoordinatorLoginPage() {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            className="form-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
 
         <div className="form-group">
           <label htmlFor="password" className="form-label">Password:</label>

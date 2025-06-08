@@ -42,17 +42,21 @@ class Instructor
 
     public function verifyInstructor($name, $password)
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE LOWER(Instructor_Name) = LOWER(:name) AND password = :password LIMIT 1";
+        $query = "SELECT * FROM " . $this->table_name . " 
+              WHERE LOWER(Instructor_Name) = LOWER(:name) 
+              AND password = :password 
+              LIMIT 1";
+
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
 
-        // If a matching row is found, return true
+        // If a matching row is found, return the coordinator details
         if ($stmt->rowCount() > 0) {
-            return true;
+            return $stmt->fetch(PDO::FETCH_ASSOC); // returns associative array
         }
 
-        return false;
+        return null; // No match found
     }
 }

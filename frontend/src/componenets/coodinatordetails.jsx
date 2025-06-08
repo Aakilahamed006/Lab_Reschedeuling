@@ -1,13 +1,22 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-function CoordinatorDetails() {
-  const navigate = useNavigate();
 
+import {  useLocation } from 'react-router-dom';
+
+
+function CoordinatorDetails() {
+  
+  const location = useLocation();
+  const { availability} = location.state || {};  // Make sure to pass this from previous page
+
+  
+
+  
   return (
     <div>
       <h1>Coordinator Details</h1>
-      {/* Add more details about the coordinator here */}
+      <p><strong>Name:</strong> {availability.Coodinator_Name}</p>
+      <p><strong>Email:</strong> {availability.Coodinator_Email}</p>
     </div>
   );
 }
+
 export default CoordinatorDetails;

@@ -4,7 +4,7 @@ class Database
     private $host = "localhost";
     private $db_name = "lab_rescheduling_system";
     private $username = "root";
-    private $password = "";
+    private $password = "Nafil2010";
     public $conn;
 
     public function connect()

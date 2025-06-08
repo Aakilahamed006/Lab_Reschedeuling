@@ -2,6 +2,12 @@
 require_once 'connection.php';
 require_once 'instructor.php';
 
+header("Access-Control-Allow-Origin: *");
+
+// Allow specific methods and headers
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 $db = (new Database())->connect();
 $instructor = new Instructor($db);
 
@@ -15,13 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["message" => "Invalid JSON input"]);
         exit;
     }
+
     $instructor->name = $input['name'];
     $instructor->password = $input['password'];
-    if ($instructor->verifyInstructor($instructor->name, $instructor->password)) {
+
+    // Now verifyInstructor returns details or null
+    $verifiedInstructor = $instructor->verifyInstructor($instructor->name, $instructor->password);
+
+    if ($verifiedInstructor) {
         http_response_code(200);
-        echo json_encode(array("message" => "Student verified successfully."));
+        // You can return the instructor details here if needed
+        echo json_encode([
+            "message" => "Instructor verified successfully.",
+            "instructor" => $verifiedInstructor
+        ]);
     } else {
         http_response_code(401);
-        echo json_encode(array("message" => "Invalid student  credentials."));
+        echo json_encode(["message" => "Invalid instructor credentials."]);
     }
 }

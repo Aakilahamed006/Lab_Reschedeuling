@@ -5,6 +5,8 @@ import StudentLoginPage from './componenets/studentlogin';
 import CoordinatorLoginPage from './componenets/coodinatorlogin';
 import InstructorLoginPage from './componenets/instructorloginpage';
 import CoordinatorDetails from './componenets/coodinatordetails';
+import InstructorDetails from './componenets/instructordashboard';
+import StudentDetails from './componenets/studentdashboard';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/coordinator-login" element={<CoordinatorLoginPage />} />
         <Route path="/instructor-login" element={<InstructorLoginPage />} />
         <Route path="/coordinator-dashboard" element={<CoordinatorDetails />} />
+        <Route path="/instructor-dashboard" element={<InstructorDetails />} />
+        <Route path="/student-dashboard" element={<StudentDetails />} />
       </Routes>
     </Router>
   );

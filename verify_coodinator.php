@@ -17,13 +17,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["message" => "Invalid JSON input"]);
         exit;
     }
+
     $coodinator->name = $input['name'];
     $coodinator->password = $input['password'];
-    if ($coodinator->verifyCoodinator($coodinator->name, $coodinator->password)) {
+
+    // Now verifyCoodinator returns details or null
+    $verifiedCoordinator = $coodinator->verifyCoodinator($coodinator->name, $coodinator->password);
+
+    if ($verifiedCoordinator) {
         http_response_code(200);
-        echo json_encode(array("message" => "Student verified successfully."));
+        // You can return the coordinator details here if needed
+        echo json_encode([
+            "message" => "Coordinator verified successfully.",
+            "coordinator" => $verifiedCoordinator
+        ]);
     } else {
         http_response_code(401);
-        echo json_encode(array("message" => "Invalid student  credentials."));
+        echo json_encode(["message" => "Invalid coordinator credentials."]);
     }
 }
