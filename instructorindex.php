@@ -4,6 +4,12 @@ require_once 'instructor.php';
 $db = (new Database())->connect();
 $instructor = new Instructor($db);
 
+header("Access-Control-Allow-Origin: *");
+
+// Allow specific methods and headers
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 // getMethhod   http://localhost/Lab_Rescheduling/instructorindex.php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $instructor->getInstructorsDetails();

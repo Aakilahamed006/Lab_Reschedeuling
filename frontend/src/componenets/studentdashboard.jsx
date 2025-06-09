@@ -1,21 +1,29 @@
 
-import {  useLocation } from 'react-router-dom';
+import {  useLocation ,useNavigate} from 'react-router-dom';
 
 
 function StudentDetails() {
-
+  const navigate = useNavigate();
   const location = useLocation();
-  const { availability} = location.state || {};  // Make sure to pass this from previous page
+  const { availability} = location.state || {};  
 
-  
+  const handleSubmit = () => {
+    navigate("/medical-letter", { state: { studentId: availability.Student_Id } });
 
-  
+  }
+
   return (
     <div>
-      <h1>Student Details</h1>
-      <p><strong>Name:</strong> {availability.Student_Name}</p>
-      <p><strong>Email:</strong> {availability.Student_Email}</p>
+      <h1>Hi {availability.Student_Name}</h1>
+       <p><strong>Email:</strong> {availability.Student_Email}</p>
+      <p><strong>Student ID:</strong> {availability.Student_Id}</p>
+
+      <div>
+        <button className ="submit medical" onClick={() => handleSubmit()}>Submit a lab rescheduling request</button>
+      </div>
+
     </div>
+    
   );
 }
 

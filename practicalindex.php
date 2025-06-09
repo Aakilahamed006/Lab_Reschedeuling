@@ -3,7 +3,9 @@ require_once 'connection.php';
 require_once 'practicaldetails.php';
 $db = (new Database())->connect();
 $practical = new Practical($db);
-
+header("Access-Control-Allow-Origin: *"); // Allow all origins (for development)
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Allow specific methods
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 // getMethhod   http://localhost/Lab_Rescheduling/practicalindex.php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $practical->getPracticalDetails();

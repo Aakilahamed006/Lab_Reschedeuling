@@ -7,6 +7,10 @@ import InstructorLoginPage from './componenets/instructorloginpage';
 import CoordinatorDetails from './componenets/coodinatordetails';
 import InstructorDetails from './componenets/instructordashboard';
 import StudentDetails from './componenets/studentdashboard';
+import InstructorSignupPage from './componenets/instructorsignupform';
+import CoodinatorSignupPage from './componenets/coodinatorsignuppage.jsx';
+import StudentSignupPage from './componenets/studentsignuppage.jsx';
+import MedicalLetter from './componenets/medicalletter';
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
         <Route path="/coordinator-dashboard" element={<CoordinatorDetails />} />
         <Route path="/instructor-dashboard" element={<InstructorDetails />} />
         <Route path="/student-dashboard" element={<StudentDetails />} />
+        <Route path="/instructor-signup" element={<InstructorSignupPage />} />
+        <Route path="/coordinator-signup" element={<CoodinatorSignupPage />} />
+        <Route path="/student-signup" element={<StudentSignupPage />} />
+        <Route path="/medical-letter" element={<MedicalLetter />} />
       </Routes>
     </Router>
   );

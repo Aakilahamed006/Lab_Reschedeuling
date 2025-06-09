@@ -15,9 +15,9 @@ function WelcomePage() {
       <button className="welcome-button" onClick={() => navigate('/coordinator-login')}>Coordinator</button>
       <button className="welcome-button" onClick={() => navigate('/instructor-login')}>Instructor</button>
       </div>
-
-      <p className="welcome-text">Doesn't have an Account</p>
-      <button className="welcome-button">Sign Up</button>
+      <p className="welcome-text">
+        This system allows students to request lab rescheduling, instructors to manage their availability, and coordinators to oversee the entire process.
+      </p>
     </div>
   );
 }

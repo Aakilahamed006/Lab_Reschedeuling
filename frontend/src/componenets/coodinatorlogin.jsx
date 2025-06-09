@@ -81,7 +81,7 @@ function CoordinatorLoginPage() {
 
       <p className="signup-text">
         Don't have an account?{' '}
-        <button type="button" className="signup-button" onClick={() => navigate('/signup')}>
+        <button type="button" className="signup-button" onClick={() => navigate('/coordinator-signup')}>
           Sign Up
         </button>
       </p>

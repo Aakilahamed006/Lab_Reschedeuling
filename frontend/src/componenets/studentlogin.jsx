@@ -81,7 +81,7 @@ function StudentLoginPage() {
 
       <p className="signup-text">
         Don't have an account?{' '}
-        <button type="button" className="signup-button" onClick={() => navigate('/signup')}>
+        <button type="button" className="signup-button" onClick={() => navigate('/student-signup')}>
           Sign Up
         </button>
       </p>

@@ -4,6 +4,12 @@ require_once 'subject_coodinator.php';
 $db = (new Database())->connect();
 $coodinator = new Subject_Coodiator($db);
 
+header("Access-Control-Allow-Origin: *");
+
+// Allow specific methods and headers
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 // getMethhod   http://localhost/Lab_Rescheduling/coodinatorindex.php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $coodinator->getCoodinatorsDetails();
