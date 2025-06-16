@@ -15,6 +15,7 @@ class Medical_Letter
     public $approved;
     public $checked;
     public $checked_by_coordinator;
+    public $subject_coordinator_id; // Assuming this is needed for GetMedicalLetterForCoordinator
 
 
     public function __construct($db)
@@ -149,6 +150,29 @@ class Medical_Letter
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Update failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function GetMedicalLetterForCoordinator()
+    {
+        $query = "SELECT ml.* 
+              FROM {$this->table_name} ml 
+              JOIN practical_details pd ON ml.Practical_Id = pd.Practical_Id 
+              JOIN subject_details s ON pd.Subject_Id = s.Subject_Id 
+              WHERE s.Subject_Coodinator_Id = :subject_coordinator_id
+              LIMIT 0, 25;";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Bind the actual coordinator ID (assumes it's stored in $this->subject_coordinator_id)
+        $stmt->bindValue(":subject_coordinator_id", $this->subject_coordinator_id, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // return results as associative array
+        } catch (PDOException $e) {
+            error_log("Query failed: " . $e->getMessage());
             return false;
         }
     }

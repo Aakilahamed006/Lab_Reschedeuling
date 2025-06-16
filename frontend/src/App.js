@@ -11,7 +11,7 @@ import InstructorSignupPage from './componenets/instructorsignupform';
 import CoodinatorSignupPage from './componenets/coodinatorsignuppage.jsx';
 import StudentSignupPage from './componenets/studentsignuppage.jsx';
 import MedicalLetter from './componenets/medicalletter';
-
+import MedicalLetters from './componenets/medicalletters.jsx';
 function App() {
   return (
     <Router>
@@ -27,6 +27,7 @@ function App() {
         <Route path="/coordinator-signup" element={<CoodinatorSignupPage />} />
         <Route path="/student-signup" element={<StudentSignupPage />} />
         <Route path="/medical-letter" element={<MedicalLetter />} />
+         <Route path="/medical-letters" element={<MedicalLetters />} />
       </Routes>
     </Router>
   );
