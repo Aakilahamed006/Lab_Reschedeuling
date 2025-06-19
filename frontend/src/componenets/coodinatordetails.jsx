@@ -7,8 +7,12 @@ function CoordinatorDetails() {
 
   const coordinatorId = availability?.Coodinator_Id ?? null;
 
-  const handleSubmit = () => {
+  const handleRecentSubmit = () => {
     navigate("/medical-letters", { state: { CoordinatorId: coordinatorId } });
+  };
+
+  const handleSubmit = () => {
+    navigate("/medical-letters-recent", { state: { CoordinatorId: coordinatorId } });
   };
 
   return (
@@ -53,6 +57,7 @@ function CoordinatorDetails() {
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.3s ease;
+            margin-right: 10px;
           }
 
           .view-requests-button:hover {
@@ -67,7 +72,10 @@ function CoordinatorDetails() {
         <p><strong>Your ID:</strong> {availability?.Coodinator_Id}</p>
         <p><strong>Your Email:</strong> {availability?.Coodinator_Email}</p>
 
-        <button className="view-requests-button" onClick={handleSubmit}>
+        <button className="view-requests-button" onClick={handleRecentSubmit}>
+          View Recent Request Letters
+        </button>
+            <button className="view-requests-button" onClick={handleSubmit}>
           View All the Request Letters
         </button>
       </div>

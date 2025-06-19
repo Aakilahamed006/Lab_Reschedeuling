@@ -4,32 +4,31 @@ import Axios from 'axios';
 import axios from 'axios';
 import './medicalletter.css';
 
-function MedicalLetters() {
+function AllMedicalLetters() {
   const location = useLocation();
   const { CoordinatorId } = location.state || {};
   const [letters, setLetters] = useState([]);
   const [practicalDetails, setPracticalDetails] = useState({});
-  const [removingLetterId, setRemovingLetterId] = useState(null);
   const coordinatorId = CoordinatorId ?? null;
 
-  useEffect(() => {
+  const fetchLetters = () => {
     if (coordinatorId !== null) {
       Axios.post('http://localhost/Lab_Rescheduling/GetMedicalLetterForCoordinator.php', {
         subject_coordinator_id: coordinatorId
       })
         .then(response => {
           const data = Array.isArray(response.data) ? response.data : [];
-          const unCheckedLetters = data.filter(letter => 
-            letter.checked_by_coordinator === "0" || 
-            letter.checked_by_coordinator === 0 || 
-            letter.checked_by_coordinator === null
-          );
-          setLetters(unCheckedLetters);
+          setLetters(data);
+          console.log('Fetched letters:', data);
         })
         .catch(error => {
           console.error('Error fetching letters:', error);
         });
     }
+  };
+
+  useEffect(() => {
+    fetchLetters();
   }, [coordinatorId]);
 
   useEffect(() => {
@@ -55,41 +54,52 @@ function MedicalLetters() {
     });
   }, [letters, practicalDetails]);
 
-  const handleAction = (LetterID, isApproved) => {
+  const updateLetterStatus = (LetterID, approvedValue) => {
     axios.post('http://localhost/Lab_Rescheduling/approveletter.php', {
       letter_id: LetterID,
-      Approved: isApproved ? 1 : 0
-    })
-    .then(() => {
-      return axios.post('http://localhost/Lab_Rescheduling/checkedbycoodinator.php', {
-        letter_id: LetterID
-      });
-    })
-    .then(() => {
-      setRemovingLetterId(LetterID);  // Start animation
-      setTimeout(() => {
-        setLetters(prev => prev.filter(letter => letter.Letter_Id !== LetterID));
-        setRemovingLetterId(null);
-      }, 500); // Wait for animation
-    })
-    .catch(error => {
-      console.error('Error processing letter:', error);
+      Approved: approvedValue
+    }).then(() => {
+        window.location.reload();
+      return axios.post('http://localhost/Lab_Rescheduling/checkedbycoordinator.php', { letter_id: LetterID });
+    }).then(() => {
+      console.log('Letter status updated, refetching...');
+      fetchLetters();  // REFETCH here after update
+      
+
+    }).catch(error => {
+      console.error('Error:', error);
     });
-  }
+    
+  };
 
   return (
     <div className="medical-letters-container">
-      <h1 className="title">Recent Medical Letters</h1>
+      <h1 className="title">All Medical Letters</h1>
 
       {letters.length === 0 ? (
         <p className="no-letters">No letters found.</p>
       ) : (
         letters.map(letter => (
-          <div 
-            key={letter.Letter_Id} 
-            className={`letter-card ${removingLetterId === letter.Letter_Id ? 'removing' : ''}`}
-          >
+          <div key={letter.Letter_Id} className="letter-card">
             <p className="student-id"><strong>Student ID:</strong> {letter.Student_Id}</p>
+
+            <p className="student-id">
+              <strong
+                style={{
+                  color: letter.Approved === 1 
+                    ? "blue" 
+                    : letter.Approved === 0 
+                    ? "red" 
+                    : "orange"
+                }}
+              >
+                {letter.Approved === 1 
+                  ? "Approved" 
+                  : letter.Approved === 0 
+                  ? "Rejected" 
+                  : "Pending..."}
+              </strong>
+            </p>
 
             {practicalDetails[letter.Practical_Id] ? (
               <p className="practical-name">
@@ -110,8 +120,8 @@ function MedicalLetters() {
             )}
 
             <div className="button-group">
-              <button className="approve-button" onClick={() => handleAction(letter.Letter_Id, true)}>Approve Letter</button>
-              <button className="reject-button" onClick={() => handleAction(letter.Letter_Id, false)}>Reject Letter</button>
+              <button className="approve-button" onClick={() => updateLetterStatus(letter.Letter_Id, 1)}>Approve Letter</button>
+              <button className="reject-button" onClick={() => updateLetterStatus(letter.Letter_Id, 0)}>Reject Letter</button>
             </div>
           </div>
         ))
@@ -120,4 +130,4 @@ function MedicalLetters() {
   );
 }
 
-export default MedicalLetters;
+export default AllMedicalLetters;

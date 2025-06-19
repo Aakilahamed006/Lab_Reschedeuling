@@ -38,4 +38,13 @@ class Practical
 
         return $stmt->execute();
     }
+
+    public function getPracticalDetailsById()
+    {
+        $query = "SELECT * FROM " . $this->table_name. " WHERE Practical_Id = :Practical_Id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":Practical_Id", $this->Practical_Id);
+        $stmt->execute();
+        return $stmt;
+    }
 }

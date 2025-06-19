@@ -140,19 +140,25 @@ class Medical_Letter
         }
     }
     //done
-    public function CheckByCoordinator()
-    {
-        $query = "UPDATE " . $this->table_name . " SET checked_by_coordinator = 1 WHERE Letter_Id = :Letter_Id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(":Letter_Id", $this->letter_id);
+  public function CheckByCoordinator()
+{
+    $query = "UPDATE " . $this->table_name . " SET checked_by_coordinator = 1 WHERE Letter_Id = :Letter_Id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(":Letter_Id", $this->letter_id);
 
-        try {
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log("Update failed: " . $e->getMessage());
-            return false;
+    try {
+        $success = $stmt->execute();
+        if ($success && $stmt->rowCount() > 0) {
+            return true;  // At least one row updated
+        } else {
+            return false; // No rows updated
         }
+    } catch (PDOException $e) {
+        error_log("Update failed: " . $e->getMessage());
+        return false;
     }
+}
+
 
     public function GetMedicalLetterForCoordinator()
     {

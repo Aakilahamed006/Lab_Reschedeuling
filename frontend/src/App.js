@@ -12,6 +12,7 @@ import CoodinatorSignupPage from './componenets/coodinatorsignuppage.jsx';
 import StudentSignupPage from './componenets/studentsignuppage.jsx';
 import MedicalLetter from './componenets/medicalletter';
 import MedicalLetters from './componenets/medicalletters.jsx';
+import AllMedicalLetters from './componenets/allLetters.jsx';
 function App() {
   return (
     <Router>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/student-signup" element={<StudentSignupPage />} />
         <Route path="/medical-letter" element={<MedicalLetter />} />
          <Route path="/medical-letters" element={<MedicalLetters />} />
+          <Route path="/medical-letters-recent" element={<AllMedicalLetters />} />"/medical-letters-recent"
       </Routes>
     </Router>
   );

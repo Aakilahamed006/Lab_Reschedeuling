@@ -1,0 +1,117 @@
+.medical-letters-container {
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f3f3;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 600;
+  color: #2b2b2b;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.no-letters {
+  color: #666;
+  text-align: center;
+  font-size: 20px;
+  margin-top: 50px;
+}
+
+.letter-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 30px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 900px;
+}
+
+.letter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.approve-button {
+  background-color: #0078d4;
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.approve-button:hover {
+  background-color: #005a9e;
+}
+
+.reject-button {
+  background-color: #d92c2c;
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reject-button:hover {
+  background-color: #b02020;
+}
+
+.student-id, .practical-name {
+  font-size: 20px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.loading-practical, .no-image {
+  color: #888;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.medical-letter-image {
+  max-width: 100%;
+  max-height: 500px;
+  border: 1px solid #ddd;
+  margin-top: 25px;
+  border-radius: 10px;
+  transition: transform 0.4s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  cursor: zoom-in;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.medical-letter-image:hover {
+  transform: scale(1.5);
+  z-index: 20;
+  position: relative;
+}
+
+.letter-card {
+  transition: all 0.5s ease;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.letter-card.removing {
+  opacity: 0;
+  transform: translateX(100px);
+}
