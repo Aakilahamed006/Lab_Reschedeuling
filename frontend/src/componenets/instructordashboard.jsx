@@ -13,7 +13,7 @@ const handleViewApprovedLetters = () => {
       navigate("/all-approved-letters-instructors", { state: { InstructorId:instructorId  } });
   }
 const handleViewRescheduleLab = () => {
-      navigate("/medical-letters-recent", { state: { InstructorId:instructorId  } });
+      navigate("/RescheduleLabs", { state: { InstructorId:instructorId  } });
   }
 
 
@@ -74,7 +74,7 @@ const handleViewRescheduleLab = () => {
         <p><strong>Your ID:</strong> {availability?.Instructor_Id}</p>
         <p><strong>Your Email:</strong> {availability?.Instructor_Email}</p>
         <button className='view-requests-button' onClick={handleViewApprovedLetters}>View all the Approved letters</button>
-        <button className='view-requests-button' onClick={handleViewRescheduleLab}>Reschedule Lab</button>
+        <button className='view-requests-button' onClick={handleViewRescheduleLab}>Manage Lab Reschedules</button>
       </div>
     </div>
   );

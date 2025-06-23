@@ -14,6 +14,8 @@ import MedicalLetter from './componenets/medicalletter';
 import MedicalLetters from './componenets/medicalletters.jsx';
 import AllMedicalLetters from './componenets/allLetters.jsx';
 import ApprovedLettersInstructors from './componenets/approvedlettrsinstructors.jsx';
+import RescheduleLabs from './componenets/rescheduleLabs.jsx';
+import LabRescheduling from './componenets/labResceduling.jsx';
 function App() {
   return (
     <Router>
@@ -33,6 +35,8 @@ function App() {
         <Route path="/medical-letters-recent" element={<AllMedicalLetters />} />
         <Route path="/instructor-" element={<AllMedicalLetters />} />
         <Route path="/all-approved-letters-instructors" element={<ApprovedLettersInstructors />} />
+        <Route path="/RescheduleLabs" element={<RescheduleLabs />} />
+        <Route path="/LabRescheduling" element={<LabRescheduling/>} />
       </Routes>
     </Router>
   );
