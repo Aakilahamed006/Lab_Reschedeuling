@@ -72,10 +72,38 @@ function MedicalLetters() {
         setRemovingLetterId(null);
       }, 500); // Wait for animation
     })
-    .catch(error => {
-      console.error('Error processing letter:', error);
-    });
-  }
+    /*.then(() => {
+      if (isApproved) {
+        
+    const templateParams = {
+      name: StudentName,
+      to_name: StudentName,
+      email: StudentEmail,
+      FromEmail: InstructorEmail,
+      practical_Name: PracticalName,
+      reschedule_date: selectedDate
+    };
+
+    emailjs
+      .send(
+        'service_lkp2atf',
+        'template_kolcns8',
+        templateParams,
+        'XBEH-L1BfAJbHQUDk'
+      )
+      .then((result) => {
+        console.log('Email sent!', result.text);
+        setLoading(false);
+        setSuccessMessage('Reschedule confirmed and email sent!');
+        setTimeout(() => {
+          setSuccessMessage('');
+          window.history.back();
+        }, 2000);
+      })
+      .catch(error => {
+        console.error('Error sending email:', error);
+      });
+  }*/}
 
   return (
     <div className="medical-letters-container">

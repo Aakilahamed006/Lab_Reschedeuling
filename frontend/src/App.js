@@ -18,6 +18,8 @@ import RescheduleLabs from './componenets/rescheduleLabs.jsx';
 import LabRescheduling from './componenets/labResceduling.jsx';
 import LetterSummary from './componenets/LetterSummary.jsx';
 import LabSchedule from './componenets/lab_schedule.jsx';
+
+import ScheduleLabs from './componenets/ScheduleLabs.jsx';
 function App() {
   return (
     <Router>
@@ -41,6 +43,7 @@ function App() {
         <Route path="/LabRescheduling" element={<LabRescheduling/>} />
         <Route path="/Summary" element={<LetterSummary />} />
         <Route path="/lab-schedule" element={<LabSchedule />} />
+        <Route path="/ScheduleLabs" element={<ScheduleLabs />} />
       </Routes>
     </Router>
   );

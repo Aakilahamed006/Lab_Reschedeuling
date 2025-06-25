@@ -13,6 +13,7 @@ class LabSchedule
     public $Date;
     public $LabName;
     public $Lablocation;
+    public $StudentIds = []; // Array to hold multiple student IDs
 
     public function __construct($db)
     {
@@ -42,17 +43,22 @@ class LabSchedule
         return $stmt;
     }
 
-    public function createSubject()
-    {
-        $query = "INSERT INTO " . $this->table_name . " (Subject_Name, Subject_Coodinator_Id, Instructor_Id) VALUES (:name, :coodinator_id, :instructor_id)";
+ public function createLabSchedule()
+{
+    // Build the insert query
+    $query = "INSERT INTO ".$this->table_name. "(Practical_Id, Student_Id, Date) VALUES (:practical_id, :student_id, :date)";
+    $stmt = $this->conn->prepare($query);
 
-        $stmt = $this->conn->prepare($query);
-
-        //Bind
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":coodinator_id", $this->coodinator_id);
-        $stmt->bindParam(":instructor_id", $this->instructor_id);
-
-        return $stmt->execute();
+    // Loop through each student ID and insert
+    foreach ($this->StudentIds as $studentId) {
+        $stmt->bindParam(':practical_id', $this->PracticalId);
+        $stmt->bindParam(':student_id', $studentId);
+        $stmt->bindParam(':date', $this->Date);
+        $stmt->execute();
     }
+
+    return true;
+}
+
+
 }
