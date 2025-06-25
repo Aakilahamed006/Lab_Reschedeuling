@@ -13,7 +13,7 @@ function RescheduleLabs() {
   const instructorId = InstructorId ?? null;
 
   useEffect(() => {
-    axios.post('http://localhost/Lab_Rescheduling/GetMedicalLetterForInstructors.php', {
+    axios.post('http://localhost/Lab_Rescheduling/getmedicalletterforinstructorButchecked.php', {
       instructor_id: instructorId
     })
     .then(response => {
@@ -26,8 +26,10 @@ function RescheduleLabs() {
     });
   }, [instructorId]);
 
-const handleRescheduleLab =(Practical_Id,Student_Id)=>{
- navigate("/LabRescheduling", { state: { InstructorId:instructorId,PracticalId : Practical_Id,StudentId:Student_Id } });
+const handleRescheduleLab =(Practical_Id,Student_Id,Student_Name,Practical_Name,Instructor_Name,Instructor_Email,Student_Email,Letter_Id)=>{
+ navigate("/LabRescheduling", { state: { InstructorId:instructorId,
+  PracticalId : Practical_Id,StudentId:Student_Id,PracticalName:Practical_Name,StudentName:Student_Name,InstructorEmail:Instructor_Email,StudentEmail:Student_Email,
+  InstructorName:Instructor_Name ,letterID:Letter_Id  } });
 }
  
 
@@ -116,7 +118,8 @@ const handleRescheduleLab =(Practical_Id,Student_Id)=>{
               <p className="letter-info"><strong>Student ID:</strong> {letter.Student_Id}</p>
               <p className="letter-info"><strong>Student Name:</strong> {letter.Student_Name}</p>
               <p className="letter-info"><strong>Practical Name:</strong> {letter.Practical_Name}</p>
-              <button className='Reschedule-Lab-button' onClick={()=>handleRescheduleLab(letter.Practical_Id,letter.Student_Id) }>Reschedule Lab</button>
+              <button className='Reschedule-Lab-button' onClick={()=>handleRescheduleLab(letter.Practical_Id,letter.Student_Id,letter.Student_Name,
+                letter.Practical_Name,letter.Instructor_Name,letter.Instructor_Email,letter.Student_Email,letter.Letter_Id ) }>Reschedule Lab</button>
             </div>
           ))
         )}
