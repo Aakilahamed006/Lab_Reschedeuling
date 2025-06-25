@@ -55,6 +55,21 @@ function LabRescheduling() {
         setLoading(false);
       });
 
+
+axios
+      .post('http://localhost/Lab_Rescheduling/rescheduleAlab.php', {
+        PracticalId: PracticalId,
+        StudentId: StudentId,
+        RescheduleDate: selectedDate
+      })
+      .then((response) => {
+        console.log('Reschedule successful', response.data);
+      })
+      .catch((error) => {
+        console.error('Error rescheduling', error);
+        setLoading(false);
+      });
+
     const templateParams = {
       name: StudentName,
       to_name: StudentName,

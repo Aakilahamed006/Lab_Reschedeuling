@@ -8,6 +8,9 @@ function StudentDetails() {
   const handleSubmit = () => {
     navigate("/medical-letter", { state: { studentId: availability.Student_Id } });
   };
+  const handleViewLabSchedule = () => {
+    navigate("/lab-schedule", { state: { studentId: availability.Student_Id } });
+  };
 
   return (
     <div>
@@ -43,6 +46,7 @@ function StudentDetails() {
 
           .submit-button {
             background-color: #6264A7;
+            margin : 10px;
             color: #fff;
             border: none;
             padding: 12px 20px;
@@ -67,6 +71,9 @@ function StudentDetails() {
 
         <button className="submit-button" onClick={handleSubmit}>
           Submit a Lab Rescheduling Request
+        </button>
+        <button className="submit-button" onClick={handleViewLabSchedule}>
+          View LabSchedule
         </button>
       </div>
     </div>

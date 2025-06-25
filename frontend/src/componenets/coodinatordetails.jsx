@@ -14,6 +14,9 @@ function CoordinatorDetails() {
   const handleSubmit = () => {
     navigate("/medical-letters-recent", { state: { CoordinatorId: coordinatorId } });
   };
+  const handleSummarySubmit = () => {
+    navigate("/Summary", { state: { CoordinatorId: coordinatorId } });
+  };
 
   return (
     <div>
@@ -77,6 +80,9 @@ function CoordinatorDetails() {
         </button>
             <button className="view-requests-button" onClick={handleSubmit}>
           View All the Request Letters
+        </button>
+             <button className="view-requests-button" onClick={handleSummarySubmit}>
+          View Summary of the Request Letters
         </button>
       </div>
     </div>

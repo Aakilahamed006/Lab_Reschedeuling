@@ -188,11 +188,7 @@ class Medical_Letter
     public function GetMedicalLetterForInstructors(){
      $query = "
     SELECT 
-        ml.Letter_Id,
-        pd.Practical_Name,
-        pd.Practical_Id,
-        sd.Student_Name,
-        sd.Student_Id
+       *
     FROM 
         {$this->table_name} ml
     JOIN 
@@ -201,6 +197,8 @@ class Medical_Letter
         subject_details s ON s.Subject_Id = pd.Subject_Id
     JOIN 
         student_detail sd ON sd.Student_Id = ml.Student_Id
+    JOIN
+        instructor_details id on id.Instructor_Id=s.Instructor_Id
     WHERE 
         s.Instructor_Id = :instructor_id
         AND ml.Approved = TRUE
@@ -221,4 +219,80 @@ class Medical_Letter
         }
 
     }
+
+public function GetMedicalLetterForInstructorsButChecked(){
+     $query = "
+    SELECT 
+       *
+    FROM 
+        {$this->table_name} ml
+    JOIN 
+        practical_details pd ON pd.Practical_Id = ml.Practical_Id
+    JOIN 
+        subject_details s ON s.Subject_Id = pd.Subject_Id
+    JOIN 
+        student_detail sd ON sd.Student_Id = ml.Student_Id
+    JOIN
+        instructor_details id on id.Instructor_Id=s.Instructor_Id
+    WHERE 
+        s.Instructor_Id = :instructor_id
+        AND ml.Approved = TRUE
+        AND (ml.Checked=false or ml.Checked is null)
+    LIMIT 0, 25
+";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindValue(":instructor_id", $this-> instructor_id, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // return results as associative array
+        } catch (PDOException $e) {
+            error_log("Query failed: " . $e->getMessage());
+            return false;
+        }
+
+    }
+
+    public function GetMedicalLetterSummary(){
+     $query = "
+    SELECT 
+       *
+    FROM 
+        {$this->table_name} ml
+    left JOIN 
+        practical_details pd ON pd.Practical_Id = ml.Practical_Id
+    left JOIN 
+        subject_details s ON s.Subject_Id = pd.Subject_Id
+    left JOIN 
+        student_detail sd ON sd.Student_Id = ml.Student_Id
+    left JOIN
+        instructor_details id on id.Instructor_Id=s.Instructor_Id
+    left JOIN
+        subject_codinator_details scd ON scd.Coodinator_Id = s.Subject_Coodinator_Id
+    left Join
+        reschedule_labs rl ON rl.practical_ID = pd.Practical_Id
+    WHERE 
+        scd.Coodinator_Id = :coordinator_id
+       
+    LIMIT 0, 25
+";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Bind the actual coordinator ID (assumes it's stored in $this->subject_coordinator_id)
+        $stmt->bindValue(":coordinator_id", $this->subject_coordinator_id, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // return results as associative array
+        } catch (PDOException $e) {
+            error_log("Query failed: " . $e->getMessage());
+            return false;
+        }
+
+    }
+
+
 }
