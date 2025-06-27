@@ -1,74 +1,70 @@
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import emailjs from '@emailjs/browser';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './LabRescheduling.css'; // 👈 import custom styles
 
 function LabRescheduling() {
   const location = useLocation();
   const {
-    InstructorId,
+    
     PracticalId,
     StudentId,
     PracticalName,
     StudentName,
-    InstructorName,
+   
     InstructorEmail,
     StudentEmail,
     letterID
   } = location.state || {};
 
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [unavailabledates, setUnavailabledates] = useState([]);
 
-  const handleDateChange = (e) => {
-    setSelectedDate(e.target.value);
-    setError('');
-  };
+  useEffect(() => {
+    axios.post('http://localhost/Lab_Rescheduling/getLabScheduleDetailsByStudentID.php', {
+      StudentId: StudentId
+    })
+    .then((response) => {
+      const data = Array.isArray(response.data) ? response.data : [];
+      const unavailable = data.map(lab => new Date(lab.Date));
+      setUnavailabledates(unavailable);
+    })
+    .catch((error) => {
+      console.error('Error fetching lab details:', error);
+    });
+  }, [StudentId]);
 
   const handleSubmit = () => {
-    const today = new Date().toISOString().split('T')[0];
-
     if (!selectedDate) {
       setError('Please select a date.');
       return;
     }
 
-    if (selectedDate < today) {
+    const today = new Date().setHours(0, 0, 0, 0);
+    const chosen = selectedDate.setHours(0, 0, 0, 0);
+    if (chosen < today) {
       setError('Selected date cannot be in the past.');
       return;
     }
 
     setError('');
-    setLoading(true); // Start loading
+    setLoading(true);
 
-    axios
-      .post('http://localhost/Lab_Rescheduling/checkedbyinstructor.php', {
-        letter_id: letterID
-      })
-      .then((response) => {
-        console.log('Reschedule successful', response.data);
-      })
-      .catch((error) => {
-        console.error('Error rescheduling', error);
-        setLoading(false);
-      });
+    axios.post('http://localhost/Lab_Rescheduling/checkedbyinstructor.php', {
+      letter_id: letterID
+    });
 
-
-axios
-      .post('http://localhost/Lab_Rescheduling/rescheduleAlab.php', {
-        PracticalId: PracticalId,
-        StudentId: StudentId,
-        RescheduleDate: selectedDate
-      })
-      .then((response) => {
-        console.log('Reschedule successful', response.data);
-      })
-      .catch((error) => {
-        console.error('Error rescheduling', error);
-        setLoading(false);
-      });
+    axios.post('http://localhost/Lab_Rescheduling/rescheduleAlab.php', {
+      PracticalId,
+      StudentId,
+      RescheduleDate: selectedDate.toISOString().split('T')[0]
+    });
 
     const templateParams = {
       name: StudentName,
@@ -76,45 +72,49 @@ axios
       email: StudentEmail,
       FromEmail: InstructorEmail,
       practical_Name: PracticalName,
-      reschedule_date: selectedDate
+      reschedule_date: selectedDate.toISOString().split('T')[0]
     };
 
-    emailjs
-      .send(
-        'service_lkp2atf',
-        'template_kolcns8',
-        templateParams,
-        'XBEH-L1BfAJbHQUDk'
-      )
-      .then((result) => {
-        console.log('Email sent!', result.text);
-        setLoading(false);
-        setSuccessMessage('Reschedule confirmed and email sent!');
-        setTimeout(() => {
-          setSuccessMessage('');
-          window.history.back();
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error('Email send failed:', error);
-        setLoading(false);
-      });
+    emailjs.send(
+      'service_lkp2atf',
+      'template_kolcns8',
+      templateParams,
+      'XBEH-L1BfAJbHQUDk'
+    )
+    .then(() => {
+      setLoading(false);
+      setSuccessMessage('Reschedule confirmed and email sent!');
+      setTimeout(() => {
+        setSuccessMessage('');
+        window.history.back();
+      }, 2000);
+    })
+    .catch((error) => {
+      console.error('Email send failed:', error);
+      setLoading(false);
+    });
   };
-
-  const todayDate = new Date().toISOString().split('T')[0];
 
   return (
     <div style={styles.wrapper}>
       <div style={styles.card}>
         <p style={styles.heading}>Select the date to reschedule the lab</p>
 
-        <input
-          type="date"
-          min={todayDate}
-          value={selectedDate}
-          onChange={handleDateChange}
-          style={styles.input}
-        />
+        <div style={{ position: 'relative' }}>
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => {
+              setSelectedDate(date);
+              setError('');
+            }}
+            excludeDates={unavailabledates}
+            minDate={new Date()}
+            placeholderText="Choose a valid date"
+            dateFormat="yyyy-MM-dd"
+            className="custom-datepicker"
+          />
+          <span style={styles.icon}>📅</span>
+        </div>
 
         {error && <p style={styles.error}>{error}</p>}
 
@@ -131,25 +131,11 @@ axios
         </button>
       </div>
 
-      {/* Success Popup */}
       {successMessage && (
         <div style={styles.popup}>
           <p>{successMessage}</p>
         </div>
       )}
-
-      {/* CSS Animations */}
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes spinner {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }
@@ -179,14 +165,6 @@ const styles = {
     marginBottom: '1.5rem',
     color: '#2e2e2e'
   },
-  input: {
-    width: '100%',
-    padding: '0.5rem',
-    fontSize: '1rem',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-    marginBottom: '1rem'
-  },
   button: {
     width: '100%',
     padding: '0.75rem',
@@ -195,12 +173,13 @@ const styles = {
     fontSize: '1rem',
     border: 'none',
     borderRadius: '8px',
-    transition: 'background-color 0.3s'
+    transition: 'background-color 0.3s',
+    marginTop: '1rem'
   },
   error: {
     color: '#d32f2f',
     fontSize: '0.9rem',
-    marginBottom: '1rem'
+    marginTop: '0.5rem'
   },
   popup: {
     position: 'absolute',
@@ -211,6 +190,15 @@ const styles = {
     borderRadius: '8px',
     animation: 'fadeIn 0.5s ease-out',
     boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+  },
+  icon: {
+    position: 'absolute',
+    right: '12px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    pointerEvents: 'none',
+    fontSize: '18px',
+    color: '#666'
   }
 };
 

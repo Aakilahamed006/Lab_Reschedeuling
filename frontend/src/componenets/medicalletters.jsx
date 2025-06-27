@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Axios from 'axios';
-import axios from 'axios';
+import axios from 'axios'; // Use one axios import
 import './medicalletter.css';
 
 function MedicalLetters() {
@@ -14,7 +13,7 @@ function MedicalLetters() {
 
   useEffect(() => {
     if (coordinatorId !== null) {
-      Axios.post('http://localhost/Lab_Rescheduling/GetMedicalLetterForCoordinator.php', {
+      axios.post('http://localhost/Lab_Rescheduling/GetMedicalLetterForCoordinator.php', {
         subject_coordinator_id: coordinatorId
       })
         .then(response => {
@@ -36,7 +35,7 @@ function MedicalLetters() {
     const uniqueIds = [...new Set(letters.map(l => l.Practical_Id))];
     uniqueIds.forEach(id => {
       if (!practicalDetails[id]) {
-        Axios.post('http://localhost/Lab_Rescheduling/getPracticalDetailsById.php', {
+        axios.post('http://localhost/Lab_Rescheduling/getPracticalDetailsById.php', {
           Practical_Id: id
         })
           .then(response => {
@@ -66,44 +65,16 @@ function MedicalLetters() {
       });
     })
     .then(() => {
-      setRemovingLetterId(LetterID);  // Start animation
+      setRemovingLetterId(LetterID); // Start animation
       setTimeout(() => {
         setLetters(prev => prev.filter(letter => letter.Letter_Id !== LetterID));
         setRemovingLetterId(null);
       }, 500); // Wait for animation
     })
-    /*.then(() => {
-      if (isApproved) {
-        
-    const templateParams = {
-      name: StudentName,
-      to_name: StudentName,
-      email: StudentEmail,
-      FromEmail: InstructorEmail,
-      practical_Name: PracticalName,
-      reschedule_date: selectedDate
-    };
-
-    emailjs
-      .send(
-        'service_lkp2atf',
-        'template_kolcns8',
-        templateParams,
-        'XBEH-L1BfAJbHQUDk'
-      )
-      .then((result) => {
-        console.log('Email sent!', result.text);
-        setLoading(false);
-        setSuccessMessage('Reschedule confirmed and email sent!');
-        setTimeout(() => {
-          setSuccessMessage('');
-          window.history.back();
-        }, 2000);
-      })
-      .catch(error => {
-        console.error('Error sending email:', error);
-      });
-  }*/}
+    .catch(error => {
+      console.error('Error during action:', error);
+    });
+  };
 
   return (
     <div className="medical-letters-container">

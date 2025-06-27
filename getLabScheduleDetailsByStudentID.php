@@ -9,6 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 $db = (new Database())->connect();
 $labSchedule = new LabSchedule($db);
 
+// PostMethod  http://localhost/Lab_Rescheduling/getLabScheduleDetailsByStudentID.php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents("php://input"), true);
 

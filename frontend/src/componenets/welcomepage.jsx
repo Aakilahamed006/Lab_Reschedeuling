@@ -7,17 +7,32 @@ function WelcomePage() {
 
   return (
     <div className="welcome-page">
-      <h1 className="welcome-title">University of Jaffna</h1>
-      <h2 className="welcome-subtitle">Welcome to the Lab Rescheduling System</h2>
-
-      <div className="welcome-buttons">
-      <button className="welcome-button" onClick={() => navigate('/student-login')}>Student</button>
-      <button className="welcome-button" onClick={() => navigate('/coordinator-login')}>Coordinator</button>
-      <button className="welcome-button" onClick={() => navigate('/instructor-login')}>Instructor</button>
+      <div className="hero-section">
+        <h1 className="title animate-fade">University of Jaffna</h1>
+        <h2 className="subtitle animate-fade-delay">Lab Rescheduling Management System</h2>
+        <p className="description animate-fade-delay2">
+          A centralized platform for students, instructors, and coordinators to manage lab scheduling efficiently.
+        </p>
       </div>
-      <p className="welcome-text">
-        This system allows students to request lab rescheduling, instructors to manage their availability, and coordinators to oversee the entire process.
-      </p>
+
+      <div className="roles-container">
+        <div className="role-card" onClick={() => navigate('/student-login')}>
+          <h3>🎓 Student</h3>
+          <p>Submit reschedule requests and track their status.</p>
+        </div>
+        <div className="role-card" onClick={() => navigate('/coordinator-login')}>
+          <h3>📋 Coordinator</h3>
+          <p>Review, manage, and approve student requests.</p>
+        </div>
+        <div className="role-card" onClick={() => navigate('/instructor-login')}>
+          <h3>👩‍🏫 Instructor</h3>
+          <p>View assigned labs and respond to scheduling changes.</p>
+        </div>
+      </div>
+
+      <footer className="footer">
+        <p>&copy; {new Date().getFullYear()} University of Jaffna - Faculty of Engineering</p>
+      </footer>
     </div>
   );
 }

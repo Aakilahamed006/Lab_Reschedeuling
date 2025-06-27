@@ -294,5 +294,44 @@ public function GetMedicalLetterForInstructorsButChecked(){
 
     }
 
+    public function GetMedicalLetterStatusForStudent(){
+     $query = "
+    SELECT 
+       *
+    FROM 
+        {$this->table_name} ml
+    left JOIN 
+        practical_details pd ON pd.Practical_Id = ml.Practical_Id
+    left JOIN 
+        subject_details s ON s.Subject_Id = pd.Subject_Id
+    left JOIN 
+        student_detail sd ON sd.Student_Id = ml.Student_Id
+    left JOIN
+        instructor_details id on id.Instructor_Id=s.Instructor_Id
+    left JOIN
+        subject_codinator_details scd ON scd.Coodinator_Id = s.Subject_Coodinator_Id
+    left Join
+        reschedule_labs rl ON rl.practical_ID = pd.Practical_Id
+    WHERE 
+        ml.Student_Id = :student_id
+       
+    LIMIT 0, 25
+";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Bind the actual student ID (assumes it's stored in $this->student_id)
+        $stmt->bindValue(":student_id", $this->student_id, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // return results as associative array
+        } catch (PDOException $e) {
+            error_log("Query failed: " . $e->getMessage());
+            return false;
+        }
+
+    }
+
 
 }

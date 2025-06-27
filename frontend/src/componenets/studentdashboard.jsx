@@ -11,6 +11,9 @@ function StudentDetails() {
   const handleViewLabSchedule = () => {
     navigate("/lab-schedule", { state: { studentId: availability.Student_Id } });
   };
+  const handleSubmitStatus = () => {
+    navigate("/rescheduling-status", { state: { studentId: availability.Student_Id } });
+  }
 
   return (
     <div>
@@ -105,6 +108,10 @@ function StudentDetails() {
           <button className="submit-button" onClick={handleViewLabSchedule}>
             View Lab Schedule
             <div className="btn-desc">Check your upcoming lab schedules and details.</div>
+          </button>
+         <button className="submit-button" onClick={handleSubmitStatus}>
+             Check Rescheduling Status
+           <div className="btn-desc">Track your lab rescheduling requests and updates.</div>
           </button>
         </div>
       </div>

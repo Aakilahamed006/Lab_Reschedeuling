@@ -14,14 +14,17 @@ function ScheduleLabs() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost/Lab_Rescheduling/practicalindex.php')
+    axios.post('http://localhost/Lab_Rescheduling/FilterPracticalDetailsByDate.php',
+      {date: selectedDate} )// Send selected date to filter practicals)
       .then(response => setPracticalDetails(response.data))
       .catch(error => console.error('Error fetching practicals', error));
 
-    axios.get('http://localhost/Lab_Rescheduling/studentindex.php')
+    axios.post('http://localhost/Lab_Rescheduling/studentindex.php',
+      { date: selectedDate } // 
+    )
       .then(response => setStudentDetails(response.data))
       .catch(error => console.error('Error fetching students', error));
-  }, []);
+  }, [selectedDate]); // Fetch students whenever selectedDate changes
 
   const handleStudentCheckboxChange = (studentId) => {
     setSelectedStudentIds(prev =>
@@ -85,6 +88,19 @@ function ScheduleLabs() {
       )}
 
       <form onSubmit={handleSubmit} style={styles.form}>
+
+         <div style={styles.field}>
+          <label style={styles.label}>Select Date:</label>
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            style={styles.input}
+          />
+        </div>
+
+
+
         <div style={styles.field}>
           <label style={styles.label}>Select Practical:</label>
           <select
@@ -101,18 +117,10 @@ function ScheduleLabs() {
           </select>
         </div>
 
-        <div style={styles.field}>
-          <label style={styles.label}>Select Date:</label>
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            style={styles.input}
-          />
-        </div>
+     
 
         <div style={styles.field}>
-          <label style={styles.label}>Select Students:</label>
+          <label style={styles.label}>Select Available Students:</label>
           <div style={styles.studentList}>
             {studentDetails.map(student => (
               <div key={student.Student_Id} style={styles.studentItem}>

@@ -16,7 +16,7 @@ function StudentSignupPage() {
 
     try {
       // First, create instructor account
-      const signupResponse = await fetch('http://localhost/Lab_Rescheduling/studentindex.php', {
+      const signupResponse = await fetch(' http://localhost/Lab_Rescheduling/createstudent.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

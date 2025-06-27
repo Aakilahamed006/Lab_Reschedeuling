@@ -11,7 +11,7 @@ class Student
     public $name;
     public $email;
     public $password;
-
+    public $date;
 
     public function __construct($db)
     {
@@ -20,8 +20,14 @@ class Student
 
     public function getStudentsDetails()
     {
-        $query = "SELECT * FROM " . $this->table_name;
+    $query = "SELECT DISTINCT S.Student_Id, S.* FROM " . $this->table_name . " S 
+    LEFT JOIN lab_schedule ls ON ls.Student_Id = S.Student_Id 
+    WHERE ls.Date != :date";
+
+
         $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":date", $this->date);
         $stmt->execute();
         return $stmt;
     }

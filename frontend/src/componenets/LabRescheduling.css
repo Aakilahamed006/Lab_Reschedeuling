@@ -1,0 +1,45 @@
+/* LabRescheduling.css */
+
+.custom-datepicker {
+  padding: 10px;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.custom-datepicker:focus {
+  border-color: #6264a7;
+  outline: none;
+  box-shadow: 0 0 5px rgba(98, 100, 167, 0.5);
+}
+
+.react-datepicker {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.react-datepicker__header {
+  background-color: #6264a7;
+  color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #4f51c0 !important;
+  color: white;
+}
+
+.react-datepicker__day:hover {
+  background-color: #d0d0f5;
+}
+
+.react-datepicker__day--disabled {
+  color: #ccc;
+  text-decoration: line-through;
+}

@@ -11,6 +11,7 @@ class Practical
     public $Practical_Name;
     public $Lab_Id;
     public $Subject_Id;
+    public $Date;
 
     public function __construct($db)
     {
@@ -44,6 +45,18 @@ class Practical
         $query = "SELECT * FROM " . $this->table_name. " WHERE Practical_Id = :Practical_Id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":Practical_Id", $this->Practical_Id);
+        $stmt->execute();
+        return $stmt;
+    }
+
+     public function FilterPracticalDetailsByDate()
+    {
+      $query = "SELECT DISTINCT pd.* FROM " . $this->table_name . " pd 
+    LEFT JOIN lab_schedule ls ON ls.Practical_Id = pd.Practical_Id 
+    WHERE ls.Date != :date";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":date", $this->Date);
         $stmt->execute();
         return $stmt;
     }

@@ -29,7 +29,7 @@ function InstructorDetails() {
             min-height: 600px;
             margin: 40px auto;
             padding: 40px;
-            background-color: #ffffff;
+            background-color:rgb(255, 255, 255);
             border-radius: 16px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

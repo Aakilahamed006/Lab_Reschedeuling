@@ -1,48 +1,107 @@
+/* Base layout */
 .welcome-page {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f5f7fa;
+  background: linear-gradient(to right, #f3f5fb, #e6edf8);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2b2b2b;
+  padding: 30px 20px;
+  box-sizing: border-box;
 }
 
-.welcome-title {
-  font-size: 2.5rem;
-  color: #002147;
-  margin-bottom: 10px;
+/* Hero / Header section */
+.hero-section {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeIn 1s ease-out;
 }
 
-.welcome-subtitle {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 30px;
+.title {
+  font-size: 42px;
+  font-weight: 600;
+  color: #464775; /* Teams-like primary color */
 }
 
-.welcome-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #0056b3;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.subtitle {
+  font-size: 24px;
+  margin-top: 10px;
+  color: #5a5d88;
 }
 
-.welcome-button:hover {
-  background-color: #003d80;
-}
-
-.welcome-text {
-  margin-top: 30px;
-  font-size: 1rem;
+.description {
+  font-size: 16px;
+  margin-top: 15px;
   color: #555;
 }
 
-.welcome-buttons {
+/* Role card section */
+.roles-container {
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.role-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px;
+  width: 260px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  border: 1px solid #e0e4ef;
+}
+
+.role-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+  background-color: #f6f8fc;
+}
+
+.role-card h3 {
+  font-size: 20px;
+  color: #464775;
+  margin-bottom: 10px;
+}
+
+.role-card p {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 13px;
+  color: #777;
+  border-top: 1px solid #ddd;
+  background-color: #f0f3f8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-fade-delay {
+  animation: fadeIn 1s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+.animate-fade-delay2 {
+  animation: fadeIn 1s ease-out;
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
 }

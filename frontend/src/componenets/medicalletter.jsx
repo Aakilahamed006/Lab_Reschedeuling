@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 
 function MedicalLetter() {
-  const navigate = useNavigate();
+  
   const location = useLocation();
 
   const [errorMessage, setErrorMessage] = useState('');
