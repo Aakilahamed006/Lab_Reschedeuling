@@ -112,7 +112,7 @@ function InstructorDetails() {
 
           <button className='view-requests-button' onClick={handleViewRescheduleLab}>
             Manage Lab Reschedules
-            <div className="btn-desc">Approve or reject student requests for lab rescheduling.</div>
+            <div className="btn-desc">Review and process student requests to reschedule labs.</div>
           </button>
 
           <button className='view-requests-button' onClick={handleViewScheduleLab}>
